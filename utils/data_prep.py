@@ -54,6 +54,10 @@ class ConeDataset(Dataset):
 
         keypoints = torch.tensor(ann_data.get("keypoints", []), dtype=torch.float32)
 
+        if len(keypoints) != 6 or image is None:
+            print(f"Returning dummy values instead of None")
+            return torch.zeros((3, 80, 80)), torch.zeros((6, 2))
+
         # Rescaling into 80x80
         target_size = (80, 80)
         scale_x = target_size[0] / orig_width
